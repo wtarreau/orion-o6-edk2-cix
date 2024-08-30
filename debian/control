@@ -1,0 +1,21 @@
+Source: edk2-cix
+Maintainer: "Radxa Computer Co., Ltd" <dev@radxa.com>
+Section: admin
+Priority: standard
+Standards-Version: 4.6.0
+Build-Depends: debhelper (>=12~),
+               devscripts,
+               lintian,
+               dh-exec,
+               pandoc,
+               shellcheck,
+
+Package: edk2-cix
+Architecture: all
+Section: admin
+Priority: standard
+Depends: bash-completion,
+         ${misc:Depends},
+Description: RadxaOS Software Development Kit
+ RadxaOS Software Development Kit (edk2-cix) provides the managed environment to
+ build system images and essential packages.

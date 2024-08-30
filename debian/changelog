@@ -1,0 +1,5 @@
+edk2-cix (0.1.0) UNRELEASED; urgency=medium
+
+  * Add initial Debian packaging support
+
+ -- "Radxa Computer Co., Ltd" <dev@radxa.com>  Fri, 30 Aug 2024 19:31:58 +0800
