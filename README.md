@@ -1,3 +1,3 @@
 # edk2-cix
 
-This is the packaging repo for CIX EDK2,
+This is the packaging repo for CIX EDK II,

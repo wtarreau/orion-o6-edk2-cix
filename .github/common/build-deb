@@ -28,7 +28,7 @@ build() {
         then
             if [[ -z $CONTAINER_REGISTRY ]]
             then
-                $CONTAINER_BACKEND build --force-rm -t "${CONTAINER_REGISTRY}${PROJECT_NAME}:master" "$SCRIPT_DIR"
+                $CONTAINER_BACKEND build --force-rm -t "${CONTAINER_REGISTRY}${PROJECT_NAME}:master" -f ../local/Dockerfile "$SCRIPT_DIR"
             else
                 $CONTAINER_BACKEND pull "${CONTAINER_REGISTRY}${PROJECT_NAME}:master"
             fi
@@ -70,7 +70,7 @@ build() {
                     CONTAINER_EXIT_CODE="$($CONTAINER_BACKEND inspect $PROJECT_NAME --format='{{.State.ExitCode}}')"
                 fi
             else
-                if ! $CONTAINER_BACKEND run "${CONTAINER_OPTIONS[@]}" "${CONTAINER_REGISTRY}${PROJECT_NAME}:builder" make -f .github/build_assets/Makefile deb
+                if ! $CONTAINER_BACKEND run "${CONTAINER_OPTIONS[@]}" "${CONTAINER_REGISTRY}${PROJECT_NAME}:builder" make -f .github/common/Makefile deb
                 then
                     CONTAINER_EXIT_CODE="$($CONTAINER_BACKEND inspect $PROJECT_NAME --format='{{.State.ExitCode}}')"
                 fi
@@ -85,7 +85,7 @@ build() {
                     CONTAINER_EXIT_CODE="$($CONTAINER_BACKEND inspect $PROJECT_NAME --format='{{.State.ExitCode}}')"
                 fi
             else
-                if ! $CONTAINER_BACKEND run "${CONTAINER_OPTIONS[@]}" "${CONTAINER_REGISTRY}${PROJECT_NAME}:builder" bash -c "$CONTAINER_SUDO make -f .github/build_assets/Makefile deb"
+                if ! $CONTAINER_BACKEND run "${CONTAINER_OPTIONS[@]}" "${CONTAINER_REGISTRY}${PROJECT_NAME}:builder" bash -c "$CONTAINER_SUDO make -f .github/common/Makefile deb"
                 then
                     CONTAINER_EXIT_CODE="$($CONTAINER_BACKEND inspect $PROJECT_NAME --format='{{.State.ExitCode}}')"
                 fi

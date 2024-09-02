@@ -16,6 +16,5 @@ Section: admin
 Priority: standard
 Depends: bash-completion,
          ${misc:Depends},
-Description: RadxaOS Software Development Kit
- RadxaOS Software Development Kit (edk2-cix) provides the managed environment to
- build system images and essential packages.
+Description: CIX EDK II firmwares
+ This package contains prebuild CIX EDK II firmwares.

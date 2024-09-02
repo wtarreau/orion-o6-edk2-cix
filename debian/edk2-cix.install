@@ -1,0 +1,3 @@
+src/cix_flash.bin /usr/share/edk2/cix/merak/
+src/Build/Merak/RELEASE_GCC5/BuildOptions /usr/share/edk2/cix/merak/
+src/Build/Merak/RELEASE_GCC5/FV/SKY1_BL33_UEFI.fd /usr/share/edk2/cix/merak/
