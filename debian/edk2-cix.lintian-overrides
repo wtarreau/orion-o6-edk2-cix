@@ -1,2 +1,5 @@
 # Small bug number is very probable for us.
 edk2-cix: improbable-bug-number-in-closes
+
+# We use shebang to stop user running UEFI Shell script on Linux
+edk2-cix: unusual-interpreter
