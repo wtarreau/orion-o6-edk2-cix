@@ -6,7 +6,8 @@ RUN apt-get update && \
     apt-get full-upgrade --no-install-recommends -y \
         build-essential git curl \
         debhelper devscripts lintian dh-exec pandoc shellcheck \
-        acpica-tools uuid-dev nasm && \
+        acpica-tools uuid-dev nasm \
+        bison flex && \
     adduser --gecos runner --disabled-password runner && \
     curl -L https://developer.arm.com/-/media/Files/downloads/gnu-a/10.2-2020.11/binrel/gcc-arm-10.2-2020.11-x86_64-aarch64-none-elf.tar.xz | \
     tar -xJC /opt && \

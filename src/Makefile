@@ -22,24 +22,32 @@ $(PACKAGE_TOOL)/Firmwares/bootloader2.img: Build/$(UEFI_PROJECT)/$(UEFI_TARGET)_
 		--bf33 "$(shell realpath "$<")" \
 		-o "$(shell realpath "$@")"
 
+.ONESHELL:
 SHELL := bash
 Build/$(UEFI_PROJECT)/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd:
 	rm -rf Build
 	make -C edk2/BaseTools -j$(shell nproc) Source/C
-	export WORKSPACE="$(shell pwd)" && \
-	export PACKAGES_PATH="$$WORKSPACE/edk2:$$WORKSPACE/edk2-platforms:$$WORKSPACE/edk2-non-osi" && \
-	export GCC5_AARCH64_PREFIX="/opt/gcc-arm-10.2-2020.11-x86_64-aarch64-none-elf/bin/aarch64-none-elf-" && \
-	unset MAKEFLAGS && \
-	source edk2/edksetup.sh --reconfig && \
+	export WORKSPACE="$(shell pwd)"
+	export PACKAGES_PATH="$$WORKSPACE/edk2:$$WORKSPACE/edk2-platforms:$$WORKSPACE/edk2-non-osi"
+	export GCC5_AARCH64_PREFIX="/opt/gcc-arm-10.2-2020.11-x86_64-aarch64-none-elf/bin/aarch64-none-elf-"
+	if [[ -f tools/acpica/generate/unix/bin/iasl ]]; then
+		export IASL_PREFIX="$$WORKSPACE/tools/acpica/generate/unix/bin/"
+	fi
+	unset MAKEFLAGS
+	source edk2/edksetup.sh --reconfig
 	build -a AARCH64 -t GCC5 -p "Platform/CIX/Sky1/$(UEFI_PROJECT)/$(UEFI_PROJECT).dsc" \
 		-b $(UEFI_TARGET) -D BOARD_NAME=$(BOARD) -D BUILD_DATE=$(shell date "+%VM%y%m%d%H%M%SN") \
 		-D COMMIT_HASH=$(shell git rev-parse --short=12 HEAD) -D SMP_ENABLE=1 -D ACPI_BOOT_ENABLE=1
+
+tools/acpica/generate/unix/bin/iasl:
+	make -C tools/acpica -j$(shell nproc)
 
 .PHONY: clean
 clean:
 	rm -rf Build $(PACKAGE_TOOL)/certs
 	rm -rf cix_flash.bin $(PACKAGE_TOOL)/Firmwares/bootloader2.img Build/$(UEFI_TARGET)/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd
 	make -C edk2/BaseTools -j$(shell nproc) clean
+	make -C tools/acpica -j$(shell nproc) veryclean || true
 
 .PHONY: distclean
 distclean: clean
