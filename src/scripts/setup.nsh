@@ -2,33 +2,32 @@
 
 @echo -off
 
-echo "========================================================================"
-echo "                  You are about to update the BIOS."
-echo "      Please make sure the power stays on during the operation."
+echo "************************************************************************"
+echo "                       Radxa BIOS Update Utility"
+echo "************************************************************************"
 echo " "
-echo "                       Do you want to continue?"
-echo "========================================================================"
+echo "You are about to update the BIOS."
+echo "Please make sure the power stays on during the operation."
+echo " "
 pause
 
-echo "========================================================================"
-echo "                           Updating BIOS..."
-echo "========================================================================"
+echo "************************************************************************"
+echo "                            Updating BIOS..."
+echo "************************************************************************"
 echo " "
 
 FlashUpdate.efi -f cix_flash.bin
 
-# Currently reset will stuck at boot, so just exit the script
-goto EOF
-
-echo "========================================================================"
-echo "                        BIOS Update completed!"
-echo "                     The system is about to reset."
-echo "      You can quit now if you are not ready to reset the device."
 echo " "
-echo "                       Do you want to continue?"
-echo "========================================================================"
+echo "************************************************************************"
+echo "                         BIOS Update completed!"
+echo "************************************************************************"
+echo "The system is about to shut down."
+echo "Please disconnect the power after shutting down."
+echo "Without the power reset, the device will not be bootable."
+echo " "
 pause
 
-reset
+reset -s
 
 :EOF
