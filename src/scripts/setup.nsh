@@ -16,7 +16,7 @@ echo "                            Updating BIOS..."
 echo "************************************************************************"
 echo " "
 
-FlashUpdate.efi -f cix_flash.bin
+FlashUpdate.efi -f "%0\..\cix_flash.bin"
 
 echo " "
 echo "************************************************************************"
