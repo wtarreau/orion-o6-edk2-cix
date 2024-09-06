@@ -1,6 +1,5 @@
 UEFI_PROJECT ?= Merak
 UEFI_TARGET ?= RELEASE
-BOARD ?= evb
 
 .PHONY: all
 all: build
@@ -36,8 +35,8 @@ Build/$(UEFI_PROJECT)/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd:
 	unset MAKEFLAGS
 	source edk2/edksetup.sh --reconfig
 	build -a AARCH64 -t GCC5 -p "Platform/CIX/Sky1/$(UEFI_PROJECT)/$(UEFI_PROJECT).dsc" \
-		-b $(UEFI_TARGET) -D BOARD_NAME=$(BOARD) -D BUILD_DATE=$(shell date "+%VM%y%m%d%H%M%SN") \
-		-D COMMIT_HASH=$(shell git rev-parse --short=12 HEAD) -D SMP_ENABLE=1 -D ACPI_BOOT_ENABLE=1
+		-b $(UEFI_TARGET) -D BOARD_NAME=$(UEFI_PROJECT) -D BUILD_DATE=$(shell date -Is) \
+		-D COMMIT_HASH=$(shell git rev-parse --short HEAD) -D SMP_ENABLE=1 -D ACPI_BOOT_ENABLE=1
 
 tools/acpica/generate/unix/bin/iasl:
 	make -C tools/acpica -j$(shell nproc)
