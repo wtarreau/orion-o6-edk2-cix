@@ -1,5 +1,9 @@
-src/cix_flash.bin /usr/share/edk2/cix/merak/
+src/Build/Merak/RELEASE_GCC5/cix_flash.bin /usr/share/edk2/cix/merak/
 src/Build/Merak/RELEASE_GCC5/BuildOptions /usr/share/edk2/cix/merak/
-src/Build/Merak/RELEASE_GCC5/FV/SKY1_BL33_UEFI.fd /usr/share/edk2/cix/merak/
 src/edk2-non-osi/Platform/CIX/Sky1/FlashTool/* /usr/share/edk2/cix/merak/
 src/scripts/* /usr/share/edk2/cix/merak/
+
+src/Build/O1/RELEASE_GCC5/cix_flash.bin /usr/share/edk2/radxa/orion-o1/
+src/Build/O1/RELEASE_GCC5/BuildOptions /usr/share/edk2/radxa/orion-o1/
+src/edk2-non-osi/Platform/CIX/Sky1/FlashTool/* /usr/share/edk2/radxa/orion-o1/
+src/scripts/* /usr/share/edk2/radxa/orion-o1/

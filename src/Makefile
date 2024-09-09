@@ -1,19 +1,27 @@
-UEFI_PROJECT ?= Merak
 UEFI_TARGET ?= RELEASE
 
 .PHONY: all
 all: build
 
-PACKAGE_TOOL ?= edk2-non-osi/Platform/CIX/Sky1/PackageTool
+PACKAGE_TOOL := edk2-non-osi/Platform/CIX/Sky1/PackageTool
+DSC := $(wildcard edk2-platforms/Platform/CIX/Sky1/*/*.dsc) $(wildcard edk2-platforms/Platform/Radxa/Orion/*/*.dsc)
+CIX_FLASH := $(foreach i, $(patsubst edk2-platforms/Platform/%.dsc,%,$(DSC)), Build/$(lastword $(subst /, ,$(i)))/$(UEFI_TARGET)_GCC5/cix_flash.bin)
 .PHONY: build
-build: cix_flash.bin
+build: $(CIX_FLASH)
 
-cix_flash.bin: $(PACKAGE_TOOL)/Firmwares/bootloader2.img
+.SILENT: help
+.PHONY: help
+help:
+	echo "Supported targets:"
+	echo "$(CIX_FLASH)"
+
+Build/%/$(UEFI_TARGET)_GCC5/cix_flash.bin: Build/%/$(UEFI_TARGET)_GCC5/bootloader2.img
+	cp Build/$*/$(UEFI_TARGET)_GCC5/bootloader2.img $(PACKAGE_TOOL)/Firmwares/bootloader2.img
 	cd "$(PACKAGE_TOOL)" && \
 	"./cix_package_tool" -c "./cix_spi_flash_config.json" \
 		-o "$(shell realpath "$@")"
 
-$(PACKAGE_TOOL)/Firmwares/bootloader2.img: Build/$(UEFI_PROJECT)/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd
+Build/%/$(UEFI_TARGET)_GCC5/bootloader2.img: Build/%/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd
 	cd "$(PACKAGE_TOOL)" && \
 	PATH_PACKAGE_TOOL="." "./cix_image_tool.sh" -p -K Keys -T rsa3072 \
 		--bf31 "./Firmwares/tf-a.bin" \
@@ -23,8 +31,7 @@ $(PACKAGE_TOOL)/Firmwares/bootloader2.img: Build/$(UEFI_PROJECT)/$(UEFI_TARGET)_
 
 .ONESHELL:
 SHELL := bash
-Build/$(UEFI_PROJECT)/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd:
-	rm -rf Build
+Build/%/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd:
 	make -C edk2/BaseTools -j$(shell nproc) Source/C
 	export WORKSPACE="$(shell pwd)"
 	export PACKAGES_PATH="$$WORKSPACE/edk2:$$WORKSPACE/edk2-platforms:$$WORKSPACE/edk2-non-osi"
@@ -34,8 +41,8 @@ Build/$(UEFI_PROJECT)/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd:
 	fi
 	unset MAKEFLAGS
 	source edk2/edksetup.sh --reconfig
-	build -a AARCH64 -t GCC5 -p "Platform/CIX/Sky1/$(UEFI_PROJECT)/$(UEFI_PROJECT).dsc" \
-		-b $(UEFI_TARGET) -D BOARD_NAME=$(UEFI_PROJECT) -D BUILD_DATE=$(shell date -Is) \
+	build -a AARCH64 -t GCC5 -p "$(subst edk2-platforms/,,$(filter %/$*.dsc,$(DSC)))" \
+		-b $(UEFI_TARGET) -D BOARD_NAME=$(word 2, $(subst /,, $@)) -D BUILD_DATE=$(shell date -Is) \
 		-D COMMIT_HASH=$(shell git rev-parse --short HEAD) -D SMP_ENABLE=1 -D ACPI_BOOT_ENABLE=1
 
 tools/acpica/generate/unix/bin/iasl:
@@ -44,7 +51,7 @@ tools/acpica/generate/unix/bin/iasl:
 .PHONY: clean
 clean:
 	rm -rf Build $(PACKAGE_TOOL)/certs
-	rm -rf cix_flash.bin $(PACKAGE_TOOL)/Firmwares/bootloader2.img Build/$(UEFI_TARGET)/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd
+	rm -rf $(PACKAGE_TOOL)/Firmwares/bootloader2.img
 	make -C edk2/BaseTools -j$(shell nproc) clean
 	make -C tools/acpica -j$(shell nproc) veryclean || true
 
