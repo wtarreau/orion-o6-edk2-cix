@@ -70,7 +70,7 @@ build() {
                     CONTAINER_EXIT_CODE="$($CONTAINER_BACKEND inspect $PROJECT_NAME --format='{{.State.ExitCode}}')"
                 fi
             else
-                if ! $CONTAINER_BACKEND run "${CONTAINER_OPTIONS[@]}" "${CONTAINER_REGISTRY}${PROJECT_NAME}:builder" make -f .github/common/Makefile deb
+                if ! $CONTAINER_BACKEND run "${CONTAINER_OPTIONS[@]}" "${CONTAINER_REGISTRY}${PROJECT_NAME}:builder" make -C "$SCRIPT_DIR/../../" -f .github/common/Makefile deb
                 then
                     CONTAINER_EXIT_CODE="$($CONTAINER_BACKEND inspect $PROJECT_NAME --format='{{.State.ExitCode}}')"
                 fi
@@ -85,7 +85,7 @@ build() {
                     CONTAINER_EXIT_CODE="$($CONTAINER_BACKEND inspect $PROJECT_NAME --format='{{.State.ExitCode}}')"
                 fi
             else
-                if ! $CONTAINER_BACKEND run "${CONTAINER_OPTIONS[@]}" "${CONTAINER_REGISTRY}${PROJECT_NAME}:builder" bash -c "$CONTAINER_SUDO make -f .github/common/Makefile deb"
+                if ! $CONTAINER_BACKEND run "${CONTAINER_OPTIONS[@]}" "${CONTAINER_REGISTRY}${PROJECT_NAME}:builder" bash -c "$CONTAINER_SUDO make -C '$SCRIPT_DIR/../../' -f .github/common/Makefile deb"
                 then
                     CONTAINER_EXIT_CODE="$($CONTAINER_BACKEND inspect $PROJECT_NAME --format='{{.State.ExitCode}}')"
                 fi
