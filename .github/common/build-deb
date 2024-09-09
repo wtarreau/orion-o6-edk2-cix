@@ -6,12 +6,12 @@ shopt -s nullglob
 build() {
     local SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 
-    local PROJECT_NAME="edk2-cix"
-    local NATIVE_BUILD="false"
-    local CONTAINER_BACKEND="podman"
-    local CONTAINER_REGISTRY=""
-    local NO_CONTAINER_UPDATE="false"
-    local CONTAINER_SHELL="false"
+    local PROJECT_NAME="${PROJECT_NAME:-edk2-cix}"
+    local NATIVE_BUILD="${NATIVE_BUILD:-false}"
+    local CONTAINER_BACKEND="${CONTAINER_BACKEND:-podman}"
+    local CONTAINER_REGISTRY="${CONTAINER_REGISTRY:-}"
+    local NO_CONTAINER_UPDATE="${NO_CONTAINER_UPDATE:-false}"
+    local CONTAINER_SHELL="${CONTAINER_SHELL:-false}"
 
     if ! $NATIVE_BUILD
     then
