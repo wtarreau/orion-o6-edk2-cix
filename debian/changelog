@@ -1,4 +1,4 @@
-edk2-cix (0.1.0) UNRELEASED; urgency=medium
+edk2-cix (0.1.0-1) UNRELEASED; urgency=medium
 
   * Add initial Debian packaging support
 
