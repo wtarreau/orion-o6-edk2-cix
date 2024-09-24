@@ -1,4 +1,6 @@
 UEFI_TARGET ?= RELEASE
+# Specify DEBUG build for development
+#UEFI_TARGET ?= DEBUG
 
 .PHONY: all
 all: build
