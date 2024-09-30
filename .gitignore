@@ -1,2 +1,21 @@
+# Devenv
+/.devenv*
+/devenv.local.nix
+
+# direnv
+/.direnv
+
+# pre-commit
+/.pre-commit-config.yaml
+
+# node.js
+/node_modules
+
+# Local VS Code configuration
 /.vscode*
+
+# mdbook build output
+/book
+
+# debuild work directory
 /.pc
