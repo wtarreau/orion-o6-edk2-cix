@@ -35,12 +35,19 @@ serve:
 serve_zh-CN:
 	MDBOOK_BOOK__LANGUAGE=zh-CN mdbook serve -d book/zh-CN
 
+PO_LOCALE := zh-CN
 .PHONY: translate
 translate:
 	MDBOOK_OUTPUT='{"xgettext": {"pot-file": "messages.pot"}}' mdbook build -d po
-	for i in po/*.po; \
+	cd po; \
+	for i in $(PO_LOCALE); \
 	do \
-		msgmerge --update $$i po/messages.pot; \
+		if [ ! -f $$i.po ]; \
+		then \
+			msginit -l $$i --no-translator; \
+		else \
+			msgmerge --update $$i.po messages.pot; \
+		fi \
 	done
 
 #
