@@ -1,0 +1,14 @@
+# You can use devenv.local.nix to override the default settings.
+# This file is provided as an example.
+
+{ pkgs, ... }:
+
+{
+  # Override rsdk defaults here
+  env  =  {
+    EDK2_EC_UART = "ttyCH9344USB0";
+    EDK2_SE_UART = "ttyCH9344USB1";
+    EDK2_AP_UART = "ttyCH9344USB2";
+    EDK2_DEBUG_UART = "ttyCH9344USB3";
+  };
+}

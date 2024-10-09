@@ -26,6 +26,9 @@ In general, the log output order after power is connected is as follow:
 EC ---Power On---> SE ---> AP ---> Debug
 ```
 
+If you enable `devenv`, then you can run `edk2-console` to launch above 4 UART consoles at once.
+Please first create a local `devenv.local.nix` based on `devenv.local.nix.example` to define the local UART devices before using this command.
+
 ## Installation
 
 Once build completes, you can find the complete set of artifacts under `debian/edk2-cix/usr/share/edk2/`.
