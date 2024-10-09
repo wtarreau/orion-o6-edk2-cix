@@ -32,8 +32,8 @@
         sleep 1 # wait for picocom to be closed to release UART resources
         ${lib.getExe pkgs.tmux} new-session -d -s edk2-console ${lib.getExe pkgs.picocom} -b 460800 --imap lfcrlf /dev/$EDK2_EC_UART
         ${lib.getExe pkgs.tmux} split-window -h ${lib.getExe pkgs.picocom} -b 115200 /dev/$EDK2_SE_UART
-        ${lib.getExe pkgs.tmux} split-window -v ${lib.getExe pkgs.picocom} -b 115200 /dev/$EDK2_AP_UART
-        ${lib.getExe pkgs.tmux} split-window -v -t 0 ${lib.getExe pkgs.picocom} -b 115200 /dev/$EDK2_DEBUG_UART
+        ${lib.getExe pkgs.tmux} split-window -v ${lib.getExe pkgs.picocom} -b 115200 /dev/$EDK2_DEBUG_UART
+        ${lib.getExe pkgs.tmux} split-window -v -t 0 ${lib.getExe pkgs.picocom} -b 115200 /dev/$EDK2_AP_UART
         ${lib.getExe pkgs.tmux} attach-session -t edk2-console
       '';
     };
