@@ -48,14 +48,9 @@ Build/%/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd:
 		-D COMMIT_HASH=$(shell git rev-parse --short HEAD) -D SMP_ENABLE=1 -D ACPI_BOOT_ENABLE=1 \
 		-D DEB_VERSION=$(shell cd .. && dpkg-parsechangelog -S Version)
 
-# MEM_CFG_MEMFREQ value:
-# 3200 MT/s: 1600
-# 5500 MT/s: 2750
-# 6400 MT/s: 3200
 edk2-non-osi/Platform/CIX/Sky1/PackageTool/Firmwares/memory_config.bin:
-	make -C edk2-non-osi/Platform/CIX/Sky1/PackageTool/memory_config_tool_common \
-		-e CFLAG:="-DMEM_CFG_MEMFREQ=3200 -DMEM_CFG_CHMASK=15"
-	cp edk2-non-osi/Platform/CIX/Sky1/PackageTool/memory_config_tool_common/memory_config.bin "$@"
+	make -C edk2-non-osi/Platform/CIX/Sky1/PackageTool/memory_config_tool_common -j$(shell nproc)
+	mv edk2-non-osi/Platform/CIX/Sky1/PackageTool/memory_config_tool_common/memory_config.bin "$@"
 
 tools/acpica/generate/unix/bin/iasl:
 	make -C tools/acpica -j$(shell nproc)
