@@ -22,9 +22,7 @@ echo " "
 echo "************************************************************************"
 echo "                         BIOS Update completed!"
 echo "************************************************************************"
-echo "The system is about to shut down."
-echo "Please disconnect the power after shutting down."
-echo "Without the power reset, the device will not be bootable."
+echo "The system will reboot now."
 echo " "
 pause
 
