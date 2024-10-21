@@ -17,7 +17,20 @@ help:
 	echo "Supported targets:"
 	echo "$(CIX_FLASH)"
 
-Build/%/$(UEFI_TARGET)_GCC5/cix_flash.bin: Build/%/$(UEFI_TARGET)_GCC5/bootloader2.img edk2-non-osi/Platform/CIX/Sky1/PackageTool/Firmwares/memory_config.bin
+MEM_CFG_MEMFREQ := 5500
+Build/%/$(UEFI_TARGET)_GCC5/cix_flash.bin: Build/%/$(UEFI_TARGET)_GCC5/bootloader2.img
+	pushd edk2-non-osi/Platform/CIX/Sky1/PackageTool/Firmwares/ && \
+	git checkout memory_config.bin ec_firmware.bin && \
+	popd
+	export EC="$(wildcard edk2-non-osi/Platform/*/*/$*/Firmwares/ec_firmware.bin)" && \
+	if [[ -f "$$EC" ]]; then \
+		cp "$$EC" edk2-non-osi/Platform/CIX/Sky1/PackageTool/Firmwares/; \
+	fi
+	export MEM="$(wildcard edk2-platforms/Platform/*/*/$*/MemoryConfig)" && \
+	if [[ -d "$$MEM" ]]; then \
+		make -C "$$MEM" -j$(shell nproc) -e CFLAG:="-DMEM_CFG_MEMFREQ=$(MEM_CFG_MEMFREQ) -DMEM_CFG_CHMASK=15"; \
+		mv "$$MEM/memory_config.bin" edk2-non-osi/Platform/CIX/Sky1/PackageTool/Firmwares/
+	fi
 	cp Build/$*/$(UEFI_TARGET)_GCC5/bootloader2.img $(PACKAGE_TOOL)/Firmwares/bootloader2.img
 	cd "$(PACKAGE_TOOL)" && \
 	"./cix_package_tool" -c "./cix_spi_flash_config.json" \
@@ -47,10 +60,6 @@ Build/%/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd:
 		-b $(UEFI_TARGET) -D BOARD_NAME=$(word 2, $(subst /,, $@)) -D BUILD_DATE=$(shell date -Is) \
 		-D COMMIT_HASH=$(shell git rev-parse --short HEAD) -D SMP_ENABLE=1 -D ACPI_BOOT_ENABLE=1 \
 		-D DEB_VERSION=$(shell cd .. && dpkg-parsechangelog -S Version)
-
-edk2-non-osi/Platform/CIX/Sky1/PackageTool/Firmwares/memory_config.bin:
-	make -C edk2-non-osi/Platform/CIX/Sky1/PackageTool/memory_config_tool_common -j$(shell nproc)
-	mv edk2-non-osi/Platform/CIX/Sky1/PackageTool/memory_config_tool_common/memory_config.bin "$@"
 
 tools/acpica/generate/unix/bin/iasl:
 	make -C tools/acpica -j$(shell nproc)
