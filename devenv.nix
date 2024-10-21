@@ -41,7 +41,7 @@
     edk2-build = {
       description = "Build Debian package";
       exec = ''
-        .github/common/build-deb
+        .github/common/build-deb | ${lib.getExe pkgs.coreutils} --coreutils-prog=tee logs/build.log
       '';
     };
   };
