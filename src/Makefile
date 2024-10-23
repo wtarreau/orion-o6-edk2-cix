@@ -19,22 +19,21 @@ help:
 
 MEM_CFG_MEMFREQ := 5500
 Build/%/$(UEFI_TARGET)_GCC5/cix_flash.bin: Build/%/$(UEFI_TARGET)_GCC5/bootloader2.img
-	pushd edk2-non-osi/Platform/CIX/Sky1/PackageTool/Firmwares/ && \
-	git checkout memory_config.bin ec_firmware.bin && \
-	popd
+	cp -aR $(PACKAGE_TOOL)/Firmwares/ Build/$*/$(UEFI_TARGET)_GCC5/
 	export EC="$(wildcard edk2-non-osi/Platform/*/*/$*/Firmwares/ec_firmware.bin)" && \
 	if [[ -f "$$EC" ]]; then \
-		cp "$$EC" edk2-non-osi/Platform/CIX/Sky1/PackageTool/Firmwares/; \
+		cp "$$EC" Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/; \
 	fi
 	export MEM="$(wildcard edk2-platforms/Platform/*/*/$*/MemoryConfig)" && \
 	if [[ -d "$$MEM" ]]; then \
 		make -C "$$MEM" -j$(shell nproc) -e CFLAG:="-DMEM_CFG_MEMFREQ=$(MEM_CFG_MEMFREQ) -DMEM_CFG_CHMASK=15"; \
-		mv "$$MEM/memory_config.bin" edk2-non-osi/Platform/CIX/Sky1/PackageTool/Firmwares/
+		mv "$$MEM/memory_config.bin" Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/
 	fi
-	cp Build/$*/$(UEFI_TARGET)_GCC5/bootloader2.img $(PACKAGE_TOOL)/Firmwares/bootloader2.img
-	cd "$(PACKAGE_TOOL)" && \
-	"./cix_package_tool" -c "./cix_spi_flash_config.json" \
-		-o "$(shell realpath "$@")"
+	cp Build/$*/$(UEFI_TARGET)_GCC5/bootloader2.img Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/bootloader2.img
+	PKG_TOOL="$(shell realpath "$(PACKAGE_TOOL)")"
+	pushd "Build/$*/$(UEFI_TARGET)_GCC5/" && \
+	"$$PKG_TOOL/cix_package_tool" -c "$$PKG_TOOL/cix_spi_flash_config.json" -o "./cix_flash.bin" && \
+	popd
 
 Build/%/$(UEFI_TARGET)_GCC5/bootloader2.img: Build/%/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd
 	cd "$(PACKAGE_TOOL)" && \
