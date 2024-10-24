@@ -18,7 +18,7 @@ help:
 	echo "$(CIX_FLASH)"
 
 MEM_CFG_MEMFREQ := 5500
-Build/%/$(UEFI_TARGET)_GCC5/cix_flash.bin: Build/%/$(UEFI_TARGET)_GCC5/bootloader2.img
+Build/%/$(UEFI_TARGET)_GCC5/cix_flash.bin: Build/%/$(UEFI_TARGET)_GCC5/Firmwares/bootloader2.img
 	cp -aR $(PACKAGE_TOOL)/Firmwares/ Build/$*/$(UEFI_TARGET)_GCC5/
 	export EC="$(wildcard edk2-non-osi/Platform/*/*/$*/Firmwares/ec_firmware.bin)" && \
 	if [[ -f "$$EC" ]]; then \
@@ -29,19 +29,21 @@ Build/%/$(UEFI_TARGET)_GCC5/cix_flash.bin: Build/%/$(UEFI_TARGET)_GCC5/bootloade
 		make -C "$$MEM" -j$(shell nproc) -e CFLAG:="-DMEM_CFG_MEMFREQ=$(MEM_CFG_MEMFREQ) -DMEM_CFG_CHMASK=15"; \
 		mv "$$MEM/memory_config.bin" Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/
 	fi
-	cp Build/$*/$(UEFI_TARGET)_GCC5/bootloader2.img Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/bootloader2.img
-	PKG_TOOL="$(shell realpath "$(PACKAGE_TOOL)")"
+	PATH_PACKAGE_TOOL="$(shell realpath "$(PACKAGE_TOOL)")"
 	pushd "Build/$*/$(UEFI_TARGET)_GCC5/" && \
-	"$$PKG_TOOL/cix_package_tool" -c "$$PKG_TOOL/cix_spi_flash_config.json" -o "./cix_flash.bin" && \
+	"$$PATH_PACKAGE_TOOL/cix_package_tool" -c "$$PATH_PACKAGE_TOOL/cix_spi_flash_config.json" -o "./cix_flash.bin" && \
 	popd
 
-Build/%/$(UEFI_TARGET)_GCC5/bootloader2.img: Build/%/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd
-	cd "$(PACKAGE_TOOL)" && \
-	PATH_PACKAGE_TOOL="." "./cix_image_tool.sh" -p -K Keys -T rsa3072 \
-		--bf31 "./Firmwares/tf-a.bin" \
-		--bf32 "./Firmwares/tee.bin" \
+Build/%/$(UEFI_TARGET)_GCC5/Firmwares/bootloader2.img: Build/%/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd
+	mkdir -p "Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/"
+	export PATH_PACKAGE_TOOL="$(shell realpath "$(PACKAGE_TOOL)")" && \
+	pushd "Build/$*/$(UEFI_TARGET)_GCC5/" && \
+	"$$PATH_PACKAGE_TOOL/cix_image_tool.sh" -p -K "../../../$(PACKAGE_TOOL)/Keys" -T rsa3072 \
+		--bf31 "$$PATH_PACKAGE_TOOL/Firmwares/tf-a.bin" \
+		--bf32 "$$PATH_PACKAGE_TOOL/Firmwares/tee.bin" \
 		--bf33 "$(shell realpath "$<")" \
-		-o "$(shell realpath "$@")"
+		-o "./Firmwares/bootloader2.img" && \
+	popd
 
 .ONESHELL:
 SHELL := bash
@@ -65,8 +67,7 @@ tools/acpica/generate/unix/bin/iasl:
 
 .PHONY: clean
 clean:
-	rm -rf Build $(PACKAGE_TOOL)/certs
-	rm -rf $(PACKAGE_TOOL)/Firmwares/bootloader2.img
+	rm -rf Build
 	make -C edk2/BaseTools -j$(shell nproc) clean
 	make -C tools/acpica -j$(shell nproc) veryclean || true
 
