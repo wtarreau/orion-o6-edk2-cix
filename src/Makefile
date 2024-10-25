@@ -22,14 +22,16 @@ help:
 MEM_CFG_MEMFREQ := 5500
 Build/%/$(UEFI_TARGET)_GCC5/cix_flash.bin: Build/%/$(UEFI_TARGET)_GCC5/Firmwares/bootloader2.img
 	cp -aR $(PACKAGE_TOOL)/Firmwares/ Build/$*/$(UEFI_TARGET)_GCC5/
-	export EC="$(wildcard edk2-non-osi/Platform/*/*/$*/Firmwares/ec_firmware.bin)" && \
+	export EC="$(shell find edk2*/Platform/ -mindepth 5 -maxdepth 5 -path "*/$*/Firmwares/ec_firmware.bin" -type f)" && \
 	if [[ -f "$$EC" ]]; then \
+		echo "Found custom EC firmware."; \
 		cp "$$EC" Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/; \
 	fi
-	export MEM="$(wildcard edk2-platforms/Platform/*/*/$*/MemoryConfig)" && \
+	export MEM="$(shell find edk2*/Platform/ -mindepth 4 -maxdepth 4 -path "*/$*/MemoryConfig" -type d)" && \
 	if [[ -d "$$MEM" ]]; then \
+		echo "Found custom memory configuration."; \
 		make -C "$$MEM" -j$(shell nproc) -e CFLAG:="-DMEM_CFG_MEMFREQ=$(MEM_CFG_MEMFREQ) -DMEM_CFG_CHMASK=15"; \
-		mv "$$MEM/memory_config.bin" Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/
+		mv "$$MEM/memory_config.bin" Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/; \
 	fi
 	PATH_PACKAGE_TOOL="$(shell realpath "$(PACKAGE_TOOL)")"
 	pushd "Build/$*/$(UEFI_TARGET)_GCC5/" && \
