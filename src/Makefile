@@ -6,7 +6,9 @@ UEFI_TARGET ?= RELEASE
 all: build
 
 PACKAGE_TOOL := edk2-non-osi/Platform/CIX/Sky1/PackageTool
-DSC := $(wildcard edk2-platforms/Platform/Radxa/Orion/*/*.dsc) $(wildcard edk2-platforms/Platform/CIX/Sky1/*/*.dsc) 
+DSC := $(shell find edk2-platforms/Platform/Radxa -mindepth 3 -maxdepth 3 -name "*.dsc" -type "f") \
+		$(shell find edk2-platforms/Platform/CIX -mindepth 3 -maxdepth 3 -name "*.dsc" -type "f")
+
 CIX_FLASH := $(foreach i, $(patsubst edk2-platforms/Platform/%.dsc,%,$(DSC)), Build/$(lastword $(subst /, ,$(i)))/$(UEFI_TARGET)_GCC5/cix_flash.bin)
 .PHONY: build
 build: $(CIX_FLASH)
