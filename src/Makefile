@@ -27,7 +27,7 @@ Build/%/$(UEFI_TARGET)_GCC5/cix_flash.bin: Build/%/$(UEFI_TARGET)_GCC5/Firmwares
 		echo "Found custom EC firmware."; \
 		cp "$$EC" Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/; \
 	fi
-	export MEM="$(shell find edk2*/Platform/ -mindepth 4 -maxdepth 4 -path "*/$*/MemoryConfig" -type d)" && \
+	export MEM="$(shell find edk2*/Platform/ -mindepth 4 -maxdepth 4 -path "*/$*/memory_config_tool_common" -type d)" && \
 	if [[ -d "$$MEM" ]]; then \
 		echo "Found custom memory configuration."; \
 		make -C "$$MEM" -j$(shell nproc) -e CFLAG:="-DMEM_CFG_MEMFREQ=$(MEM_CFG_MEMFREQ) -DMEM_CFG_CHMASK=15"; \
