@@ -19,3 +19,6 @@
 
 # debuild work directory
 /.pc
+
+# intel-corporation.edk2code extension file
+/.edkCode
