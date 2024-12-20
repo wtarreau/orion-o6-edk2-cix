@@ -44,6 +44,57 @@
         .github/common/build-deb | ${lib.getExe' pkgs.coreutils "tee"} logs/build.log
       '';
     };
+    edk2-install = {
+      description = "Copy build artifacts to a thumb disk, require udisk2";
+      exec = ''
+        set -euo pipefail
+
+        if (($# == 0)); then
+          ${lib.getExe' pkgs.coreutils "echo"} "Usage: $(${lib.getExe' pkgs.coreutils "basename"} "$0") </dev/PARTITION>" >&2
+          exit 1
+        elif [[ ! -b "$1" ]]; then
+          ${lib.getExe' pkgs.coreutils "echo"} "Waiting for $1 to be available ..."
+        fi
+
+        while [[ ! -b "$1" ]]; do
+          ${lib.getExe' pkgs.coreutils "sleep"} 1
+        done
+
+        if [[ ! -e debian/edk2-cix/usr/share/edk2/ ]]; then
+          ${lib.getExe' pkgs.coreutils "echo"} "No EDK2 artifact available!" >&2
+          ${lib.getExe' pkgs.coreutils "echo"} "Have you ran edk2-build?" >&2
+          exit 2
+        fi
+
+        ${lib.getExe' pkgs.udisks "udisksctl"} mount -b "$1" || ${lib.getExe' pkgs.coreutils "true"}
+        MOUNT_POINT="$(${lib.getExe' pkgs.udisks "udisksctl"} info -b "$1" | \
+          ${lib.getExe pkgs.gnugrep} MountPoints | \
+          ${lib.getExe pkgs.gnused} -E "s/\s*MountPoints:\s*(.*)/\1/")"
+
+        file_count() {
+          local f=("$1"/*)
+          ${lib.getExe' pkgs.coreutils "echo"} ''${#f[@]}
+        }
+
+        if (( $(file_count debian/edk2-cix/usr/share/edk2/) != 1 )); then
+          ${lib.getExe' pkgs.coreutils "echo"} "Copying" debian/edk2-cix/usr/share/edk2/ "..."
+          ${lib.getExe' pkgs.coreutils "cp"} -a debian/edk2-cix/usr/share/edk2/. "$MOUNT_POINT"
+        elif (( $(file_count debian/edk2-cix/usr/share/edk2/*) != 1 )); then
+          ${lib.getExe' pkgs.coreutils "echo"} "Copying" debian/edk2-cix/usr/share/edk2/*/ "..."
+          ${lib.getExe' pkgs.coreutils "cp"} -a debian/edk2-cix/usr/share/edk2/*/. "$MOUNT_POINT"
+        else
+          ${lib.getExe' pkgs.coreutils "echo"} "Copying" debian/edk2-cix/usr/share/edk2/*/*/ "..."
+          ${lib.getExe' pkgs.coreutils "cp"} -a debian/edk2-cix/usr/share/edk2/*/*/. "$MOUNT_POINT"
+        fi
+
+        ${lib.getExe' pkgs.coreutils "sync"} -f "$MOUNT_POINT"
+
+        ${lib.getExe' pkgs.udisks "udisksctl"} unmount -f -b "$1"
+
+        ${lib.getExe' pkgs.coreutils "echo"} "EDK2 artifacts has been copied to $1."
+        ${lib.getExe' pkgs.coreutils "echo"} "Please run setup.nsh from UEFI Shell, listed under Boot Manager menu, to install new EDK2 binary."
+      '';
+    };
   };
 
   # enterShell = ''
