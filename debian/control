@@ -14,7 +14,15 @@ Package: edk2-cix
 Architecture: all
 Section: admin
 Priority: standard
-Depends: bash-completion,
-         ${misc:Depends},
+Depends: ${misc:Depends}
 Description: CIX EDK II firmwares
  This package contains prebuild CIX EDK II firmwares.
+
+Package: edk2-orion-o6
+Architecture: all
+Section: admin
+Priority: standard
+Depends: edk2-cix,
+         ${misc:Depends}
+Description: Radxa EDK II meta-package for Orion O6
+ This is the meta-package for EDK II.
