@@ -75,13 +75,13 @@ You can rescan the storage device with `map -r` command, which will reprint the 
 You can run BIOS flash script from UEFI Shell now. It uses Windows convention, so an example command would be:
 
 ```cmd
-fs0:\radxa\orion-o1\setup.nsh
+fs0:\radxa\orion-o6\setup.nsh
 ```
 
 The first backslash is not mandatory:
 
 ```cmd
-fs0:radxa\orion-o1\setup.nsh
+fs0:radxa\orion-o6\setup.nsh
 ```
 
 There is limited auto completion in the UEFI Shell when pressing `Tab` key.
