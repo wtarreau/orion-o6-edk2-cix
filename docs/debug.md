@@ -34,3 +34,5 @@ Please first create a local `devenv.local.nix` based on `devenv.local.nix.exampl
 Once build completes, you can find the complete set of artifacts under `debian/edk2-cix/usr/share/edk2/`.
 
 Follow [Installation guide](install.md#create-the-bios-update-disk) to continue.
+
+If you enable `devenv`, then you can run `edk2-install </dev/data_partition>` from the project root as a faster method to copy those files to a prepared USB disk.
