@@ -16,16 +16,18 @@ echo "                            Updating BIOS..."
 echo "************************************************************************"
 echo " "
 
-"%0\..\FlashUpdate.efi" -f "%0\..\cix_flash.bin"
+"%0\..\FlashUpdate.efi" -f "%0\..\cix_flash_all.bin" -n
 
 echo " "
 echo "************************************************************************"
 echo "                         BIOS Update completed!"
 echo "************************************************************************"
-echo "The system will reboot now."
+echo "System will now power off."
+echo "You MUST fully remove all connected power source before connecting them."
+echo "Failure to do so may prevent some components to use the updated code."
 echo " "
 pause
 
-reset -s
+reset -s "BIOS Update"
 
 :EOF
