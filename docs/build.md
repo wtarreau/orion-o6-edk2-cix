@@ -1,10 +1,8 @@
 # Build
 
-We use docker to maintain a consistent build environment.
+We use devcontainer to maintain a consistent build environment.
 
-To build all supported EDK2 variants, please run `.github/common/build-deb`.
-
-If you enable `devenv`, then you can run `edk2-build` from the project root as a shortcut.
+To build all supported EDK2 variants, please run `make deb` within devcontainer.
 
 Set `BUILD_TARGET` to `DEBUG` in `src/Makefile` to build for debug artifacts.
 
