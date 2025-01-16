@@ -38,12 +38,6 @@
         ${lib.getExe pkgs.tmux} attach-session -t edk2-console
       '';
     };
-    edk2-build = {
-      description = "Build Debian package";
-      exec = ''
-        .github/common/build-deb | ${lib.getExe' pkgs.coreutils "tee"} logs/build.log
-      '';
-    };
     edk2-install = {
       description = "Copy build artifacts to a thumb disk, require udisk2";
       exec = ''

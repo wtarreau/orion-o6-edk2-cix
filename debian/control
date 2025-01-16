@@ -9,6 +9,12 @@ Build-Depends: debhelper (>=12~),
                dh-exec,
                pandoc,
                shellcheck,
+               acpica-tools,
+               uuid-dev,
+               nasm,
+               bison,
+               flex,
+               curl,
 
 Package: edk2-cix
 Architecture: all
