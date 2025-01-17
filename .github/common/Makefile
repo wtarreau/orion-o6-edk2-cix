@@ -76,7 +76,9 @@ dch: debian/changelog
 
 .PHONY: deb
 deb: debian
+	dos2unix src/edk2/BaseTools/Conf/tools_def.template
 	debuild --no-lintian --lintian-hook "lintian --fail-on error,warning --suppress-tags bad-distribution-in-changes-file -- %p_%v_*.changes" --no-sign -b
+	unix2dos src/edk2/BaseTools/Conf/tools_def.template
 
 .PHONY: release
 release:
