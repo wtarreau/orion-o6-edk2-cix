@@ -1,3 +1,12 @@
+edk2-cix (0.2.2-1) UNRELEASED; urgency=medium
+
+  [ ZHANG Yuntian ]
+  * fix: adjust line ending for patch to apply
+  * chore: update edk2-non-osi
+  * fix: add example variable configuration for gbp dch
+
+ -- "Radxa Computer Co., Ltd" <dev@radxa.com>  Fri, 17 Jan 2025 08:38:43 +0000
+
 edk2-cix (0.2.1-1) main; urgency=medium
 
   [ ZHANG Yuntian ]
