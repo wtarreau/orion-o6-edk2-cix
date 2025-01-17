@@ -1,3 +1,11 @@
+edk2-cix (0.2.1-1) main; urgency=medium
+
+  [ ZHANG Yuntian ]
+  * chore: update edk2-platforms
+  * fix: add gbp for make dch command
+
+ -- "Radxa Computer Co., Ltd" <dev@radxa.com>  Fri, 17 Jan 2025 02:12:27 +0000
+
 edk2-cix (0.2.0-1) main; urgency=medium
 
   [ ZHANG Yuntian ]
