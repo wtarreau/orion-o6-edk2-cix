@@ -10,5 +10,7 @@
     EDK2_SE_UART = "ttyCH9344USB1"; # UART5
     EDK2_AP_UART = "ttyCH9344USB2"; # UART2
     EDK2_DEBUG_UART = "ttyCH9344USB3"; # UART3
+    DEBEMAIL = "email@example.com"; # Email in debian/changelog
+    DEBFULLNAME = "\"Example Co., Ltd\""; # Full name in debian/changelog
   };
 }
