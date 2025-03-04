@@ -1,12 +1,12 @@
 [submodule "src/edk2"]
 	path = src/edk2
-	url = http://gitlab.vamrs.org/cix-sky1/edk2.git
+	url = https://github.com/radxa/edk2.git
 [submodule "src/edk2-non-osi"]
 	path = src/edk2-non-osi
-	url = http://gitlab.vamrs.org/cix-sky1/edk2-non-osi.git
+	url = https://github.com/radxa/edk2-non-osi.git
 [submodule "src/edk2-platforms"]
 	path = src/edk2-platforms
-	url = http://gitlab.vamrs.org/cix-sky1/edk2-platforms.git
+	url = https://github.com/radxa/edk2-platforms.git
 [submodule "src/tools/acpica"]
 	path = src/tools/acpica
 	url = https://github.com/acpica/acpica.git
