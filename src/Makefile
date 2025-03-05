@@ -35,6 +35,9 @@ Build/%/$(UEFI_TARGET)_GCC5/cix_flash_ota.bin: Build/%/$(UEFI_TARGET)_GCC5/Firmw
 	"$$PATH_PACKAGE_TOOL/cix_package_tool" -c "./spi_flash_config_ota.json" -O "./cix_flash_ota.bin" && \
 	popd
 
+# MEM_CFG_MEMFREQ ?= 2750
+MEM_CFG_MEMFREQ ?= 3000
+
 Build/%/$(UEFI_TARGET)_GCC5/cix_flash_all.bin: Build/%/$(UEFI_TARGET)_GCC5/Firmwares/bootloader3.img Build/%/$(UEFI_TARGET)_GCC5/Firmwares/dummy.bin
 	export FW="$(shell find edk2*/Platform/ -mindepth 4 -maxdepth 4 -path "*/$*/Firmwares" -type d)" && \
 	if [[ -d "$$FW" ]]; then \
@@ -44,7 +47,7 @@ Build/%/$(UEFI_TARGET)_GCC5/cix_flash_all.bin: Build/%/$(UEFI_TARGET)_GCC5/Firmw
 	export MEM="$(shell find edk2*/Platform/ -mindepth 4 -maxdepth 4 -path "*/$*/mem_config" -type d)" && \
 	if [[ -d "$$MEM" ]]; then \
 		echo "Found custom memory configuration."; \
-		make -C "$$MEM" -j$(shell nproc); \
+		make -C "$$MEM" -j$(shell nproc) -e CFLAG:="-DMEM_CFG_MEMFREQ=$(MEM_CFG_MEMFREQ)"; \
 		mv "$$MEM/memory_config.bin" Build/$*/$(UEFI_TARGET)_GCC5/Firmwares/; \
 	fi
 	export PM="$(shell find edk2*/Platform/ -mindepth 4 -maxdepth 4 -path "*/$*/pm_config" -type d)" && \
