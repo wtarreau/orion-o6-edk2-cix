@@ -1,9 +1,11 @@
 # edk2-cix
 
-This is the packaging repo for CIX EDK II,
+[![Release](https://github.com/radxa-pkg/edk2-cix/actions/workflows/release.yaml/badge.svg)](https://github.com/radxa-pkg/edk2-cix/actions/workflows/release.yaml)
 
-This repo contains submodules, so please use the following command to clone it:
+Radxa edk2 image for cix release
 
-```bash
-git clone --recurse-submodules https://github.com/radxa-pkg/edk2-cix.git
-```
+## Build
+
+1. `git clone --recurse-submodules https://github.com/radxa-pkg/edk2-cix.git`
+2. Open in [`devcontainer`](https://code.visualstudio.com/docs/devcontainers/containers)
+3. `make deb`

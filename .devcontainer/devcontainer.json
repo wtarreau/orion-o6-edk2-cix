@@ -44,5 +44,5 @@
     "--ulimit", "nofile=1024:524288"
   ],
   "overrideCommand": true,
-  "updateContentCommand": "sudo apt-get update && sudo apt-get build-dep . -y && curl -L https://developer.arm.com/-/media/Files/downloads/gnu-a/10.2-2020.11/binrel/gcc-arm-10.2-2020.11-x86_64-aarch64-none-elf.tar.xz | sudo tar -xJC /opt"
+  "updateContentCommand": "make devcontainer_setup"
 }
