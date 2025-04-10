@@ -9,6 +9,10 @@ echo " "
 echo "You are about to update the BIOS."
 echo "Please make sure the power stays on during the operation."
 echo " "
+echo "If you decide to cancel BIOS update, you can run following commands:"
+echo "    reset     to reboot the system"
+echo "    reset -s  to shutdown the system"
+echo " "
 pause
 
 echo "************************************************************************"
