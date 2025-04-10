@@ -2,11 +2,13 @@
 
 @echo -off
 
+set product .
+
 echo "************************************************************************"
 echo "                       Radxa BIOS Update Utility"
 echo "************************************************************************"
 echo " "
-echo "You are about to update the BIOS."
+echo "You are about to update the BIOS%product%"
 echo "Please make sure the power stays on during the operation."
 echo " "
 echo "If you decide to cancel BIOS update, you can run following commands:"
