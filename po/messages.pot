@@ -50,7 +50,7 @@ msgid "Serial connection"
 msgstr ""
 
 #: docs/debug.md:5
-msgid "The following UARTs can be used to debug EDK2 on Radxa Orion O1:"
+msgid "The following UARTs can be used to debug EDK2 on Radxa Orion O6:"
 msgstr ""
 
 #: docs/debug.md:7

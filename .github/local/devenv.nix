@@ -63,7 +63,7 @@
         ${lib.getExe' pkgs.udisks "udisksctl"} unmount -f -b "$1"
 
         ${lib.getExe' pkgs.coreutils "echo"} "EDK2 artifacts has been copied to $1."
-        ${lib.getExe' pkgs.coreutils "echo"} "Please run setup.nsh from UEFI Shell, listed under Boot Manager menu, to install new EDK2 binary."
+        ${lib.getExe' pkgs.coreutils "echo"} "Please run startup.nsh from UEFI Shell, listed under Boot Manager menu, to install new EDK2 binary."
       '';
     };
   };

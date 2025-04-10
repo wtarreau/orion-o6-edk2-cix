@@ -54,7 +54,7 @@ usr/share/edk2/cix/merak/FlashUpdate.efi
 usr/share/edk2/cix/merak/Shell.efi
 usr/share/edk2/cix/merak/VariableInfo.efi
 usr/share/edk2/cix/merak/cix_flash.bin
-usr/share/edk2/cix/merak/setup.nsh
+usr/share/edk2/cix/merak/startup.nsh
 usr/share/edk2/radxa
 usr/share/edk2/radxa/orion-o6
 usr/share/edk2/radxa/orion-o6/BuildOptions
@@ -63,7 +63,7 @@ usr/share/edk2/radxa/orion-o6/FlashUpdate.efi
 usr/share/edk2/radxa/orion-o6/Shell.efi
 usr/share/edk2/radxa/orion-o6/VariableInfo.efi
 usr/share/edk2/radxa/orion-o6/cix_flash.bin
-usr/share/edk2/radxa/orion-o6/setup.nsh
+usr/share/edk2/radxa/orion-o6/startup.nsh
 ```
 
 Copy them to a USB disk formatted in FAT file system, and connect them to the target board.
@@ -113,13 +113,13 @@ You can rescan the storage device with `map -r` command, which will reprint the 
 You can run BIOS flash script from UEFI Shell now. It uses Windows convention, so an example command would be:
 
 ```cmd
-fs0:\radxa\orion-o6\setup.nsh
+fs0:\radxa\orion-o6\startup.nsh
 ```
 
 The first backslash is not mandatory:
 
 ```cmd
-fs0:radxa\orion-o6\setup.nsh
+fs0:radxa\orion-o6\startup.nsh
 ```
 
 There is limited auto completion in the UEFI Shell when pressing `Tab` key.
