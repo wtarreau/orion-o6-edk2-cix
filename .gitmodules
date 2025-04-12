@@ -3,10 +3,12 @@
 	url = https://github.com/radxa/edk2.git
 [submodule "src/edk2-non-osi"]
 	path = src/edk2-non-osi
-	url = https://github.com/radxa/edk2-non-osi.git
+	url = https://github.com/wtarreau/orion-o6-edk2-non-osi
+	branch = 20250412-fix-pmcfg-1
 [submodule "src/edk2-platforms"]
 	path = src/edk2-platforms
-	url = https://github.com/radxa/edk2-platforms.git
+	url = https://github.com/wtarreau/orion-o6-edk2-platforms
+	branch = 20250412-fix-pmcfg-1
 [submodule "src/tools/acpica"]
 	path = src/tools/acpica
 	url = https://github.com/acpica/acpica.git
