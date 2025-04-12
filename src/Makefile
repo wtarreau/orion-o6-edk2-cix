@@ -98,7 +98,7 @@ Build/%/$(UEFI_TARGET)_GCC5/FV/SKY1_BL33_UEFI.fd:
 	make -C edk2/BaseTools -j$(shell nproc) Source/C
 	export WORKSPACE="$(shell pwd)"
 	export PACKAGES_PATH="$$WORKSPACE/edk2:$$WORKSPACE/edk2-platforms:$$WORKSPACE/edk2-non-osi"
-	export GCC5_AARCH64_PREFIX="/opt/gcc-arm-10.2-2020.11-x86_64-aarch64-none-elf/bin/aarch64-none-elf-"
+	export GCC5_AARCH64_PREFIX="$$WORKSPACE/tools/gcc/gcc-arm-10.2-2020.11-x86_64-aarch64-none-elf/bin/aarch64-none-elf-"
 	if [[ -f tools/acpica/generate/unix/bin/iasl ]]; then
 		export IASL_PREFIX="$$WORKSPACE/tools/acpica/generate/unix/bin/"
 	fi
@@ -119,8 +119,8 @@ tools/acpica/generate/unix/bin/iasl:
 .PHONY: clean
 clean:
 	rm -rf Build
-	make -C edk2/BaseTools -j$(shell nproc) clean
-	make -C tools/acpica -j$(shell nproc) veryclean || true
+	#make -C edk2/BaseTools -j$(shell nproc) clean
+	#make -C tools/acpica -j$(shell nproc) veryclean || true
 
 .PHONY: distclean
 distclean: clean
