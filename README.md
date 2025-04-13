@@ -1,6 +1,9 @@
 # edk2-cix
 
-Modified Radxa edk2 image for cix release allowing to adjust OPP. Note that it reverts PM config to version 2.1 (from version 2.6 previously) because 2.6 seems not to understand the OPP settings.
+Modified Radxa edk2 image for cix release allowing to adjust OPP. Note that it reverts PM config to version 2.1 (from version 2.6 previously) because 2.6 seems not to understand the OPP settings. This repo references these two local repositories which also contain changes:
+
+-  [https://github.com/wtarreau/orion-o6-edk2-non-osi](https://github.com/wtarreau/orion-o6-edk2-non-osi) : reverts the boot loader to the version supporting OPP (branch [20250412-fix-pmcfg-1](https://github.com/wtarreau/orion-o6-edk2-non-osi/tree/20250412-fix-pmcfg-1))
+-  [https://github.com/wtarreau/orion-o6-edk2-platforms](https://github.com/wtarreau/orion-o6-edk2-platforms) : contains the new OPP settings (branch [20250412-fix-pmcfg-1](https://github.com/wtarreau/orion-o6-edk2-platforms/tree/20250412-fix-pmcfg-1))
 
 ## Build
 
